@@ -3,8 +3,8 @@
   tasks:
     - name: Deploy Apps
       docker_container:
-        name: hris-admin
-        image: 20.100.1.191:5000/smf/hris-admin:<tag_placeholder>
+        name: share-admin
+        image: 20.100.1.191:5000/smf/share-admin:<tag_placeholder>
         state: started
         recreate: yes
         ports:

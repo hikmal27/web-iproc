@@ -56,11 +56,43 @@
         @click="miniState"
       >
       </SideMenu>
+      <q-list class="tw-space-y-2">
+        <q-item
+          clickable
+          v-ripple
+          class="tw-flex tw-items-center tw-p-1 tw-px-4 tw-text-red-600 tw-transition-colors dark:tw-text-light hover:tw-bg-gray-50 dark:hover:bg-primary"
+          @click="confirmLogout"
+        >
+          <q-item-section avatar>
+            <q-icon class="tw-text-red-600" name="eva-power-outline" />
+          </q-item-section>
+          <q-item-section class="tw-text-sm tw-text-red-600"
+            >Logout</q-item-section
+          >
+        </q-item>
+      </q-list>
     </q-drawer>
 
     <q-page-container>
       <router-view />
     </q-page-container>
+
+    <q-dialog v-model="Confirm" persistent>
+        <q-card>
+          <q-card-section class="row items-center">
+            <q-avatar>
+              <q-icon name="eva-power-outline" class="tw-text-4xl tw-text-red-600"></q-icon>
+            </q-avatar>
+            <span class="q-ml-sm">Are sure you want to logout?</span>
+          </q-card-section>
+
+          <q-card-actions align="right">
+            <q-btn flat label="Cancel" color="primary" v-close-popup />
+            <q-btn flat label="Yes" color="negative" @click="logout()" />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
+    
   </q-layout>
 </template>
 
@@ -122,7 +154,8 @@ export default {
     const miniStateOpen = ref(true)
 
     return {
-      essentialLinks: linksList,
+      Confirm: ref(false),
+      essentialLinks: ref([]),
       leftDrawerOpen,
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value
@@ -132,12 +165,30 @@ export default {
       }
     };
   },
+  mounted() {
+    this.getMenus()
+  },
   methods: {
     logout() {
       let self = this
       sessionStorage.removeItem('token')
       self.$router.push({ name: 'Login' })
 
+    },
+
+    getMenus() {
+      let vm = this
+
+      vm.$api.get('/menus')
+        .then((ress) => {
+          vm.essentialLinks = ress.data.data
+          console.log(vm.essentialLinks)
+        })
+        .catch((err) => console.log(err));
+    },
+
+    confirmLogout() {
+      this.Confirm = true
     }
   }
 };

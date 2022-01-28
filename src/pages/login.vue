@@ -44,9 +44,9 @@
         <form @submit.prevent="login">
           <q-input
             outlined 
-            label="NIK"
+            label="Username"
             type="text"
-            v-model="nik"
+            v-model="username"
           >
             <template v-slot:prepend>
               <q-icon name="eva-people-outline" />
@@ -83,7 +83,7 @@ export default {
   setup() {
       return {
           accept,
-          nik: ref(''),
+          username: ref(''),
           password: ref(''),
           isPwd: ref(true)
       }
@@ -91,17 +91,17 @@ export default {
   methods: {
     login() {
       let data = {
-        NIK: this.nik,
-        Password: this.password
+        username: this.username,
+        password: this.password
       }
 
       let self = this
 
-      this.$api.post('/sessions', data)
+      this.$api.post('/login', data)
         .then(function(response) {
           console.log(response)
-          if (response.data.meta.status == 'success') {
-            sessionStorage.setItem('token', response.data.data.token)
+          if (response.status == 200) {
+            sessionStorage.setItem('ID', response.data.data.ID)
             self.$router.push({ name: 'Home' })
           } else {
             console.log('Silahkan coba lagi!!')

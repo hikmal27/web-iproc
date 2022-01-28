@@ -1,11 +1,5 @@
 <template>
-  <div
-    class="
-      tw-flex tw-items-center tw-justify-between tw-px-4 tw-py-4 tw-border-b
-      lg:tw-py-6
-      dark:tw-border-primary-darker
-    "
-  >
+  <div class="tw-flex tw-items-center tw-justify-between tw-px-4 tw-py-4 tw-border-b lg:tw-py-6 dark:tw-border-primary-darker">
     <h1 class="tw-text-2xl tw-font-semibold ">Dahsboard</h1>
     <!-- <router-link
       to="/"
@@ -256,6 +250,7 @@ export default defineComponent({
   },
   mounted() {
     this.getCustomers()
+    // this.getMenus()
   },
   methods: {
     getCustomers: function() {
@@ -267,6 +262,16 @@ export default defineComponent({
         .catch(error => {
           console.log(error)
         })
+    },
+
+    getMenus() {
+      let vm = this
+
+      vm.$api.get('/menus')
+        .then((ress) => {
+          console.log(ress.data.data)
+        })
+        .catch((err) => console.log(err));
     }
   }
 });

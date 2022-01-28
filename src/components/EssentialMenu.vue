@@ -1,5 +1,5 @@
 <template>
-  <q-list class="tw-space-y-2" v-if="MenuChild.length == 0">
+  <q-list class="tw-space-y-2" v-if="Childs.length == 0">
     <q-item
       clickable
       v-ripple
@@ -15,21 +15,21 @@
         dark:hover:bg-primary
       "
      :to="Url" 
-     @click="dataLink(MenuTitle)"
-     :active="menuActive === MenuTitle" active-class="tw-bg-indigo-100"
+     @click="dataLink(Name)"
+     :active="menuActive === Name" active-class="tw-bg-indigo-100"
     >
       <q-item-section avatar>
-        <q-icon color="gray-8" :name="MenuIcon"/>
+        <q-icon color="gray-8" :name="Icon"/>
       </q-item-section>
-      <q-item-section class="tw-text-sm">{{ MenuTitle }}</q-item-section>
+      <q-item-section class="tw-text-sm">{{ Name }}</q-item-section>
     </q-item>
 
   </q-list>
   <q-list v-else class="tw-space-y-2">
-    <q-expansion-item group="expand" :label="MenuTitle" :icon="MenuIcon" @click="handleClick" class="tw-text-gray-500 tw-transition-colors tw-rounded-md" :active="menuActive === MenuChild.MenuTitle" active-class="tw-bg-indigo-50">
+    <q-expansion-item group="expand" :label="Name" :icon="Icon" @click="handleClick" class="tw-text-gray-500 tw-transition-colors tw-rounded-md" :active="menuActive === Childs.Name" active-class="tw-bg-indigo-50">
       <ul class="tw-ml-16 tw-text-sm">
-        <li v-for="child in MenuChild" :key="child.Url" @click="dataLink(child.MenuTitle)" class="tw-px-2 tw-py-3">
-          <router-link :to="Url + child.Url">{{ child.MenuTitle }}</router-link>
+        <li v-for="child in Childs" :key="child.Url" @click="dataLink(child.Name)" class="tw-px-2 tw-py-3">
+          <router-link :to="Url + child.Url">{{ child.Name }}</router-link>
         </li>
       </ul>
     </q-expansion-item>
@@ -48,11 +48,11 @@ export default defineComponent({
     };
   },
   props: {
-      MenuTitle: {
+      Name: {
           type: String,
           required: true
       },
-      MenuIcon: {
+      Icon: {
         type: String,
         default: ''
       },
@@ -60,10 +60,13 @@ export default defineComponent({
         type: String,
         default: '#'
       },
-      MenuChild: {
+      Childs: {
         type: Array,
         default: [] 
       }
+  },
+  mouted() {
+    this.getMenus()
   },
   methods: {
     handleClick() {
@@ -71,6 +74,14 @@ export default defineComponent({
     },
     dataLink(data) {
       this.menuActive = data
+    },
+
+    getMenus() {
+      let vm = this
+
+      vm.$api.get('/menus')
+        .then((ress) => console.log(ress.data.data))
+        .catch((err) => console.log(err));
     }
   }
 });

@@ -1,5 +1,5 @@
 const requireAuth = (to, from, next) => {
-  let id = sessionStorage.getItem('ID')
+  let id = sessionStorage.getItem('access_token')
   if(id === null) {
     next('/login')
   } else {
@@ -11,7 +11,7 @@ const routes = [
   {
     path: '/',
     component: () => import('layouts/dashboard.vue'),
-    // beforeEnter: requireAuth,
+    beforeEnter: requireAuth,
     children: [
       { path: '', component: () => import('pages/Index.vue') },
       { path: '/home', component: () => import('pages/home.vue'), name: 'Home' },

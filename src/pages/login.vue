@@ -99,9 +99,9 @@ export default {
 
       this.$api.post('/login', data)
         .then(function(response) {
-          console.log(response)
+          // console.log(response.data.access_token)
           if (response.status == 200) {
-            sessionStorage.setItem('ID', response.data.data.ID)
+            sessionStorage.setItem('access_token', response.data.access_token)
             self.$router.push({ name: 'Home' })
           } else {
             console.log('Silahkan coba lagi!!')
@@ -111,7 +111,7 @@ export default {
           console.log(error)
         })
 
-    }
+    },
   }
 };
 </script>

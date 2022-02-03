@@ -106,12 +106,13 @@ export default defineComponent({
     const leftDrawerOpen = ref(false)
 
     return {
+      Profile: ref(null),
       essentialLinks: linksList,
       leftDrawerOpen,
       toggleLeftDrawer () {
         leftDrawerOpen.value = !leftDrawerOpen.value
       }
     }
-  }
+  },
 })
 </script>

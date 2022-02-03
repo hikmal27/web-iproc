@@ -2,13 +2,13 @@
   <q-layout view="lHh LpR lFf" class="tw-bg-gray-100 tw-font-['Poppins']">
     <q-header reveal class="tw-bg-white tw-text-blue-800 tw-shadow-sm">
       <q-toolbar class="tw-flex tw-justify-between tw-bg-white tw-py-4 tw-px-5">
-        <q-btn dense flat round icon="eva-menu-2-outline" class="tw-text-blue-800" @click="toggleLeftDrawer" />
+        <q-btn dense flat round icon="eva-menu-2-outline" class="tw-text-orange-600" @click="toggleLeftDrawer" />
 
         <div class="tw-flex tw-items-center">
             <q-btn flat class="md:tw-hidden tw-block tw-bg-white tw-py-2 tw-px-3 tw-font-bold">AF</q-btn>
-            <q-btn flat no-caps class="tw-flex tw-flex-col md:tw-block tw-hidden">
+            <q-btn flat no-caps class="tw-flex tw-flex-col md:tw-block tw-hidden tw-text-orange-600">
                 <q-icon name="eva-person-outline" size="18px"/>
-                <div class="tw-ml-1 tw-mr-4">Hikmal MR</div>
+                <div class="tw-ml-1 tw-mr-4">{{ Profile.name }}</div>
                 <q-icon name="eva-arrow-ios-downward-outline" size="18px"/>
             </q-btn>
 
@@ -78,20 +78,20 @@
     </q-page-container>
 
     <q-dialog v-model="Confirm" persistent>
-        <q-card>
-          <q-card-section class="row items-center">
-            <q-avatar>
-              <q-icon name="eva-power-outline" class="tw-text-4xl tw-text-red-600"></q-icon>
-            </q-avatar>
-            <span class="q-ml-sm">Are sure you want to logout?</span>
-          </q-card-section>
+      <q-card>
+        <q-card-section class="row items-center">
+          <q-avatar>
+            <q-icon name="eva-power-outline" class="tw-text-4xl tw-text-red-600"></q-icon>
+          </q-avatar>
+          <span class="q-ml-sm">Are sure you want to logout?</span>
+        </q-card-section>
 
-          <q-card-actions align="right">
-            <q-btn flat label="Cancel" color="primary" v-close-popup />
-            <q-btn flat label="Yes" color="negative" @click="logout()" />
-          </q-card-actions>
-        </q-card>
-      </q-dialog>
+        <q-card-actions align="right">
+          <q-btn flat label="Cancel" color="primary" v-close-popup />
+          <q-btn flat label="Logout" color="negative" @click="logout()" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
     
   </q-layout>
 </template>
@@ -155,6 +155,7 @@ export default {
 
     return {
       Confirm: ref(false),
+      Profile: ref(''),
       essentialLinks: ref([]),
       leftDrawerOpen,
       toggleLeftDrawer() {
@@ -167,11 +168,12 @@ export default {
   },
   mounted() {
     this.getMenus()
+    this.parseJwt()
   },
   methods: {
     logout() {
       let self = this
-      sessionStorage.removeItem('token')
+      sessionStorage.removeItem('access_token')
       self.$router.push({ name: 'Login' })
 
     },
@@ -189,6 +191,18 @@ export default {
 
     confirmLogout() {
       this.Confirm = true
+    },
+
+    // Access token
+    parseJwt() {
+      let token = sessionStorage.getItem('access_token')
+      let base64Url = token.split('.')[1];
+      let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      let jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+
+      this.Profile = JSON.parse(jsonPayload)
     }
   }
 };

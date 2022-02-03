@@ -25,7 +25,8 @@
                         <div class="tw-flex-1 tw-p-4 tw-bg-white tw-rounded-sm">
                             <div class="tw-flex"> 
                                 <q-tree
-                                    :nodes="Permission"
+                                    class="tw-w-full"
+                                    :nodes="Menus"
                                     v-model:ticked="ticked"
                                     node-key="label"
                                     :tick-strategy="tickStrategy"
@@ -60,15 +61,17 @@ export default defineComponent({
             Name: ref(''),
             Description: ref(''),
             ticked: ref([]),
-            tickStrategy: ref('strict'),
+            tickStrategy: ref('leaf'),
             Permission: ref([]),
+            Menus: ref([])
             // tickStrategies: ref([
             //     { value: 'strict', label: 'Strict' }
             // ]),
         }
     },
     mounted() {
-        this.getPermissions()
+        // this.getPermissions()
+        this.getMenus()
     },
     methods: {
         createRole() {
@@ -100,17 +103,32 @@ export default defineComponent({
                 })
         },
 
-        getPermissions() {
+        // getPermissions() {
+        //     let vm = this
+
+        //     vm.$api.get('/permissions')
+        //         .then(ress => {
+        //             console.log(ress.data.data)
+        //             ress.data.data.forEach((item) => {
+        //                 vm.Permission.push({ label: item.Name, children: [item.Name] })
+        //             })
+        //         })
+        //         .catch(err => console.log(err));
+        // }
+
+        getMenus() {
             let vm = this
 
-            vm.$api.get('/permissions')
-                .then(ress => {
-                    console.log(ress.data.data)
-                    ress.data.data.forEach((item) => {
-                        vm.Permission.push({ label: item.Name, children: [item.Name] })
+            vm.$api.get('/menus')
+                .then((ress) => {
+                    let data = ress.data.data
+                    data.forEach((item) => {
+                        vm.Menus.push({ label: item.Name, children: item.Childs.map((x) => {
+                            return { label: x.Name }
+                        }) })
                     })
                 })
-                .catch(err => console.log(err));9
+                .catch((err) => console.log(err))
         }
     }
 })

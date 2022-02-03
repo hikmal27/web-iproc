@@ -7,14 +7,14 @@
         <div class="tw-w-full tw-p-4 tw-bg-white tw-rounded-sm">
             <form @submit.prevent="editRole" class="tw-full">
                 <div class="tw-flex tw-flex-row">
-                    <div class="tw-flex tw-flex-wrap tw--mx-3 tw-mb-6">
-                        <div class="tw-w-full md:tw-w-1/2 tw-px-3 tw-mb-6 md:tw-mb-0">
+                    <div class="tw-flex tw-flex-1 tw-flex-col tw-flex-wrap tw--mx-3 tw-mb-6">
+                        <div class="tw-w-full tw-px-3 tw-mb-6 md:tw-mb-0">
                             <label class="tw-block tw-uppercase tw-tracking-wide tw-text-gray-700 tw-text-xs tw-font-bold tw-mb-2">
                                 Name
                             </label>
                             <q-input filled v-model="Name" type="text" placeholder="Name" />
                         </div>
-                        <div class="tw-w-full md:tw-w-1/2 tw-px-3">
+                        <div class="tw-w-full tw-px-3 tw-mt-5">
                             <label class="tw-block tw-uppercase tw-tracking-wide tw-text-gray-700 tw-text-xs tw-font-bold tw-mb-2">
                                 Description
                             </label>
@@ -24,7 +24,8 @@
                     <div class="tw-flex-1 tw-p-4 tw-bg-white tw-rounded-sm">
                         <div class="tw-flex"> 
                             <q-tree
-                                :nodes="Permission"
+                                class="tw-w-full"
+                                :nodes="Menus"
                                 v-model:ticked="ticked"
                                 node-key="label"
                                 :tick-strategy="tickStrategy"
@@ -57,13 +58,16 @@ export default defineComponent({
             Name: ref(''),
             Description: ref(''),
             Permission: ref([]),
+            Menus: ref([]),
+            Childs: ref([]),
             ticked: ref([]),
-            tickStrategy: ref('strict'),
+            tickStrategy: ref('leaf'),
         }
     },
     mounted() {
         this.getDetailRoles()
-        this.getPermissions()
+        // this.getPermissions()
+        this.getMenus()
     },
     methods: {
         getDetailRoles() {
@@ -105,19 +109,35 @@ export default defineComponent({
             vm.Description = ''
         },
 
-        getPermissions() {
+        // getPermissions() {
+        //     let vm = this
+
+        //     vm.$api.get('/permissions')
+        //         .then(ress => {
+        //             console.log(ress.data.data) 
+        //             ress.data.data.forEach((item) => {
+        //                 vm.Permission.push({ label: item.Name, children: [item.Name] })
+        //             })
+        //         })
+        //         .catch(err => {
+        //             console.log(err)
+        //         })
+        // }
+
+        getMenus() {
             let vm = this
 
-            vm.$api.get('/permissions')
-                .then(ress => {
-                    console.log(ress.data.data) 
-                    ress.data.data.forEach((item) => {
-                        vm.Permission.push({ label: item.Name, children: [item.Name] })
+            vm.$api.get('/menus')
+                .then((ress) => {
+                    let data = ress.data.data
+                    data.forEach((item) => {
+                        vm.Menus.push({ label: item.Name, children: item.Childs.map((x) => {
+                            return { label: x.Name }
+                            // console.log(x)
+                        }) })
                     })
                 })
-                .catch(err => {
-                    console.log(err)
-                })
+                .catch((err) => console.log(err))
         }
     }
 })

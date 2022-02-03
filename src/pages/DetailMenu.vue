@@ -109,7 +109,6 @@ export default defineComponent({
             vm.Icon = ''
             vm.Order = ''
             vm.ParentID = ''
-
         },
 
         getDetailMenu() {

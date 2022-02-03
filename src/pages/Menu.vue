@@ -89,7 +89,7 @@
 
           <q-card-actions align="right">
             <q-btn flat label="Cancel" color="primary" v-close-popup />
-            <q-btn flat label="Yes" color="negative" @click="deleteMenu()" />
+            <q-btn flat label="Delete" color="negative" @click="deleteMenu()" />
           </q-card-actions>
         </q-card>
       </q-dialog>
@@ -157,15 +157,15 @@ export default defineComponent({
         .catch(err => console.log(err))
     },
 
-    getChilds(menu) {
-      let data = menu.Childs.length
-                  ? menu.Childs.map((item) => {
-                    // `<q-badge rounded color="primary" label="`+ item.Name +`" />`
-                    item.Name
-                  })
-                  : '-'
-      return data
-    }
+    // getChilds(menu) {
+    //   let data = menu.Childs.length
+    //               ? menu.Childs.map((item) => {
+    //                 // `<q-badge rounded color="primary" label="`+ item.Name +`" />`
+    //                 item.Name
+    //               })
+    //               : '-'
+    //   return data
+    // }
   }
 })
 </script>

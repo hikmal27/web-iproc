@@ -71,7 +71,7 @@
 
                       <q-card-actions align="right">
                         <q-btn flat label="Cancel" color="primary" v-close-popup />
-                        <q-btn flat label="Yes" color="negative" @click="deleteUser()" />
+                        <q-btn flat label="Delete" color="negative" @click="deleteUser()" />
                       </q-card-actions>
                     </q-card>
                   </q-dialog>

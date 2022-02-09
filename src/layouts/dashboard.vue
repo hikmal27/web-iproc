@@ -40,15 +40,17 @@
     </q-header>
 
     <q-drawer show-if-above v-model="leftDrawerOpen" side="left" :width="280" bordered >
+      <div class="tw-flex tw-flex-row tw-py-5">
+        <div class="tw-px-6">
+          <p class="tw-text-xl tw-font-black tw-text-teal-700">Iproc</p>
+        </div>
+      </div>
       <!-- drawer content -->
-      <div class="tw-flex tw-flex-row">
+      <!-- <div class="tw-flex tw-flex-row">
         <div class="tw-px-5">
           <img src="logo.jpeg" alt="" :width="120">
         </div>
-        <!-- <div class="tw-flex tw-items-center">
-          <p>Dashboard HC</p>
-        </div> -->
-      </div>
+      </div> -->
       <SideMenu 
         v-for="link in essentialLinks"
         :key="link.title"

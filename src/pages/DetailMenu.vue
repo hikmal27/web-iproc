@@ -138,7 +138,9 @@ export default defineComponent({
                     console.log(ress.data.data)
                 })
                 .catch((err) => console.log(err))
-        }
+        },
+
+        
     }
 })
 </script>

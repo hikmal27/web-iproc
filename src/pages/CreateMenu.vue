@@ -100,6 +100,7 @@ export default {
                             color: 'negative'
                         })
                     }
+                    location.reload()
 
                     self.Name = ''
                     self.Url = ''

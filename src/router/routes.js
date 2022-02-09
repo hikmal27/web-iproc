@@ -29,14 +29,20 @@ const routes = [
       { path: '/managements/user/:id', component: () => import('pages/DetailUser.vue'), name: 'detail-user' },
 
       // Roles
-      { path: '/setting/role', component: () => import('pages/Role.vue'), name: 'role' },
-      { path: '/setting/role/create', component: () => import('pages/CreateRole.vue'), name: 'create-role' },
-      { path: '/setting/role/:id', component: () => import('pages/EditRole.vue'), name: 'edit-role' },
+      { path: '/managements/role', component: () => import('pages/Role.vue'), name: 'role' },
+      { path: '/managements/role/create', component: () => import('pages/CreateRole.vue'), name: 'create-role' },
+      { path: '/managements/role/:id', component: () => import('pages/EditRole.vue'), name: 'edit-role' },
 
       // Permissions
-      { path: '/setting/permission', component: () => import('pages/Permission.vue'), name: 'permission' },
-      { path: '/setting/permission/create', component: () => import('pages/CreatePermission.vue'), name: 'create-permission' },
-      { path: '/setting/permissions/:id', component: () => import('pages/DetailPermission.vue'), name: 'detail-permission' },
+      // { path: '/setting/permission', component: () => import('pages/Permission.vue'), name: 'permission' },
+      // { path: '/setting/permission/create', component: () => import('pages/CreatePermission.vue'), name: 'create-permission' },
+      // { path: '/setting/permissions/:id', component: () => import('pages/DetailPermission.vue'), name: 'detail-permission' },
+
+      // Product
+      { path: '/products', component: () => import('pages/Product.vue'), name: 'product' },
+      { path: '/products/create', component: () => import('pages/CreateProduct.vue'), name: 'create-product' },
+      // { path: '/products/:id', component: () => import('pages/DetailProduct.vue'), name: 'detail-product' },
+      { path: '/products/:id', component: () => import('pages/DetailProduct.vue'), name: 'edit-product' },
     ]
   },
   { path: '/login', component: () => import('pages/login.vue'), name: 'Login' },
